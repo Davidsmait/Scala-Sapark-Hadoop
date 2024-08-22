@@ -13,9 +13,11 @@ object SparkCsv {
 
     val df = spark.read
       .option("header", value = true)
+      .option("inferSchema", value = true)
       .csv("src/main/resources/AAPL.csv")
 
     df.show()
+    df.printSchema()
   }
 
   }
