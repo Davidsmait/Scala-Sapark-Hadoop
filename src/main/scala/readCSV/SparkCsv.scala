@@ -1,10 +1,12 @@
 package readCSV
 
+import org.apache.spark.sql.functions.col
 import org.apache.spark.sql.{DataFrame, SparkSession}
 
 object SparkCsv {
 
   def main(args: Array[String]): Unit = {
+
     val spark = SparkSession.builder()
       .appName("spark-csv-test")
       .master("local[*]")
@@ -18,6 +20,16 @@ object SparkCsv {
 
     df.show()
     df.printSchema()
+    import spark.implicits._
+
+    df.select("Date", "Volume", "Close").show()
+
+    // Ways to obtain a column
+    val column = df("Date")
+    col("Open")
+    $"Close"
+
+    df.select(df("Date"), col("Open"), $"Close").show()
   }
 
   }
