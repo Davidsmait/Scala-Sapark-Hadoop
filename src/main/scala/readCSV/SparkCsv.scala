@@ -1,6 +1,6 @@
 package readCSV
 
-import org.apache.spark.sql.SparkSession
+import org.apache.spark.sql.{DataFrame, SparkSession}
 
 object SparkCsv {
 
@@ -11,7 +11,7 @@ object SparkCsv {
       .config("spark.driver.bindAddress","192.168.0.47")
       .getOrCreate()
 
-    val df = spark.read
+    val df: DataFrame = spark.read
       .option("header", value = true)
       .option("inferSchema", value = true)
       .csv("src/main/resources/AAPL.csv")
