@@ -1,6 +1,7 @@
 package readCSV
 
 import org.apache.spark.sql.functions.col
+import org.apache.spark.sql.types.StringType
 import org.apache.spark.sql.{DataFrame, SparkSession}
 
 object SparkCsv {
@@ -22,14 +23,23 @@ object SparkCsv {
     df.printSchema()
     import spark.implicits._
 
+    // DSL DataFrame API
     df.select("Date", "Volume", "Close").show()
 
     // Ways to obtain a column
-    val column = df("Date")
-    col("Open")
-    $"Close"
+//    val column = df("Date")
+//    col("Open")
+//    $"Close"
+//
+//    df.select(df("Date"), col("Open"), $"Close").show()
 
-    df.select(df("Date"), col("Open"), $"Close").show()
+
+    val openColumn = df("Open")
+    val plusColumn = (openColumn + 2).as("OpenIncreasedBy2")
+    val castColumn = openColumn.cast(StringType).as("")
+
+    df.select(openColumn, plusColumn, castColumn).show()
+
   }
 
-  }
+}
