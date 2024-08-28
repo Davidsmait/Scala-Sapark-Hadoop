@@ -14,7 +14,7 @@ object groupBy {
     val df = spark.read
       .option("header", value = true)
       .option("inferSchema",  value = true)
-      .csv("src/main/scala/dataframes/known_companies_sales_data.csv")
+      .csv("src/main/resources/known_companies_sales_data.csv")
 
 
     df.printSchema()

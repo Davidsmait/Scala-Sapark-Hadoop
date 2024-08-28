@@ -15,7 +15,7 @@ object missingData {
     val df = spark.read
       .option("header", value = true)
       .option("inferSchema",  value = true)
-      .csv("src/main/scala/dataframes/known_companies_sales_data_with_missing.csv")
+      .csv("src/main/resources/known_companies_sales_data_with_missing.csv")
 
 
     df.show()
