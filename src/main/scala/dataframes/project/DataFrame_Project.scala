@@ -52,6 +52,8 @@ object DataFrame_Project {
       .option("inferSchema", value = true)
       .csv("src/main/scala/dataframes/project/Netflix_2011_2016.csv")
 
+    df.columns
+
     df.schema.names.foreach( name => {
       println("name: ", name)
     })
