@@ -13,8 +13,10 @@ libraryDependencies ++= Seq(
   // Spark dependencies
   "org.apache.spark" %% "spark-core" % sparkVersion,
   "org.apache.spark" %% "spark-sql" % sparkVersion,
+  "org.apache.spark" %% "spark-mllib" % sparkVersion,
 
-  // Hadoop dependencies
+
+// Hadoop dependencies
   "org.apache.hadoop" % "hadoop-hdfs" % hadoopVersion,
   "org.apache.hadoop" % "hadoop-common" % hadoopVersion,
   "org.apache.hadoop" % "hadoop-client" % hadoopVersion,
