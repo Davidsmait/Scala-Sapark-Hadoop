@@ -49,8 +49,13 @@ import org.apache.spark.sql.SparkSession
 
 // Fit the model to the data and call this model lrModel
 
-
 // Print the coefficients and intercept for linear regression
+
+// Summarize the model over the training set and print out some metrics!
+// Use the .summary method off your model to create an object
+// called trainingSummary
+
+// Show the residuals, the RMSE, the MSE, and the R^2 Values.
 
 object LinRegExercise {
 
@@ -91,6 +96,8 @@ object LinRegExercise {
       .setInputCols(Array("label", "Avg Session Length", "Time on App", "Time on Website", "Length of Membership"))
       .setOutputCol("features")
 
+    df.show()
+
     val output = assembler.transform(df).select($"label", $"features")
 
     output.show()
@@ -113,19 +120,3 @@ object LinRegExercise {
 
   }
 }
-
-
-
-
-
-
-
-
-// Summarize the model over the training set and print out some metrics!
-// Use the .summary method off your model to create an object
-// called trainingSummary
-
-// Show the residuals, the RMSE, the MSE, and the R^2 Values.
-
-
-// Great Job!
