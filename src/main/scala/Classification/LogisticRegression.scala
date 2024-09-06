@@ -2,7 +2,7 @@ package Classification
 
 import org.apache.spark.ml.classification.LogisticRegression
 import org.apache.log4j._
-import org.apache.spark.ml.Pipeline
+import org.apache.spark.ml.{Pipeline, PipelineModel}
 import org.apache.spark.ml.evaluation.MulticlassClassificationEvaluator
 import org.apache.spark.ml.feature.{OneHotEncoder, StringIndexer, VectorAssembler, VectorIndexer}
 import org.apache.spark.ml.linalg.Vectors
@@ -56,13 +56,13 @@ object LogisticRegression {
       .setInputCols(Array("Pclass","SexVector","Age","SibSp","Parch","Fare","EmbarkedVector"))
       .setOutputCol("features")
 
-    val Array(training, test) = logRegData.randomSplit(Array(0.7, 0.3), seed =  12345)
+    val Array(training, test) = logRegData.drop($"Name").randomSplit(Array(0.7, 0.3), seed =  12345)
 
     val lr = new LogisticRegression()
 
     val pipeline = new Pipeline().setStages(Array(genderIndexer, embarkedIndexer, genderEncoder, embarkEncoder, assembler, lr))
 
-    val model = pipeline.fit(training)
+    val model: PipelineModel = pipeline.fit(training)
 
     val result = model.transform(test)
 
