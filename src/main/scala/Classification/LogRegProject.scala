@@ -89,11 +89,12 @@ object LogRegProject {
       $"Daily Time Spent on Site",$"Age",$"Area Income",$"Daily Internet Usage", $"Country",$"Timestamp",$"Male", hour($"Timestamp").as("Hour")))
 
 
-    val logRegDataCountry = data.select($"Clicked on Ad".as("label"), $"Country")
+    val logRegDataCountry = data.select($"Clicked on Ad".as("label"), $"Country").na.drop()
 
     val countryIndexer = new StringIndexer()
       .setInputCol("Country")
       .setOutputCol("CountryIndex")
+      .setHandleInvalid("keep")
 
 
     val countryVector = new OneHotEncoder()
@@ -113,7 +114,7 @@ object LogRegProject {
 
     val pipeline = new Pipeline().setStages(Array(countryIndexer, countryVector, assembler, logisticRegression))
 
-    val Array(training, test) = logRegDataCountry.randomSplit(Array(0.7,0.3), seed = 12345)
+    val Array(training, test) = logRegDataCountry.randomSplit(Array(0.7, 0.3))
 
     val model = pipeline.fit(training)
 
@@ -121,15 +122,15 @@ object LogRegProject {
 
     result.show()
 
-//    val predictionsAndLabels = result.select($"prediction", $"label").as[(Double, Double)].rdd
-//
-//    // Crear el objeto de métricas
-//    val metrics = new MulticlassMetrics(predictionsAndLabels)
-//
-//    // Obtener la matriz de confusión
-//    val confusionMatrix = metrics.confusionMatrix
-//    println("Confusion Matrix:")
-//    println(confusionMatrix)
+    val predictionsAndLabels = result.select($"prediction", $"label").as[(Double, Double)].rdd
+
+    // Crear el objeto de métricas
+    val metrics = new MulticlassMetrics(predictionsAndLabels)
+
+    // Obtener la matriz de confusión
+    val confusionMatrix = metrics.confusionMatrix
+    println("Confusion Matrix:")
+    println(confusionMatrix)
 
 
 

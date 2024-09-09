@@ -43,10 +43,13 @@ object LogisticRegression {
 
 
 
+
     // Converiting Numberical Values into One Hot Encoding
     val genderEncoder = new OneHotEncoder()
       .setInputCol("SexIndex")
-      .setOutputCol("SexVector")
+      .setOutputCol("SexVector").setDropLast(false)
+
+
 
     val embarkEncoder = new OneHotEncoder()
       .setInputCol("EmbarkedIndex")
